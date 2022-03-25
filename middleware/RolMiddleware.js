@@ -5,7 +5,7 @@ const { userModel } = require("../models");
 const checkRoleAuth = (roles) => async (req, res, next) => {
   try {
     if (!req.headers.authorization) {
-      handleErrorResponse(res, "NOT_ALLOW", 409);
+      handleErrorResponse(res, "NOT_ALLOWED", 409);
       return;
     }
     const token = req.headers.authorization.split(" ").pop();
