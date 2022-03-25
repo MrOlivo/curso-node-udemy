@@ -10,9 +10,9 @@ const validateLogin = [
 
 const validateRegister = [
   check("name").exists().notEmpty(),
-  check("age").exists().notEmpty().isNumeric({ min: 12, max: 99 }),
+  check("age").exists().notEmpty().isInt({ min: 16, max: 99 }),
   check("email").exists().notEmpty().isEmail(),
-  check("password").exists().notEmpty().isLength({min:8, max:15}),
+  check("password").exists().notEmpty().isLength({ min: 8, max: 16 }),
   (req, res, next) => {
     validateResult(req, res, next);
   },
