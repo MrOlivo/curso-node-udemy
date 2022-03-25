@@ -1,25 +1,25 @@
-const fs = require('fs')
-const epxress = require('express')
-const router = epxress.Router()
+const fs = require("fs");
+const epxress = require("express");
+const router = epxress.Router();
 
-const pathRouter = `${__dirname}`
+const pathRouter = `${__dirname}`;
 
 const removeExtension = (fileName) => {
-    return fileName.split('.').shift()
-}
+  return fileName.split(".").shift();
+};
 
 fs.readdirSync(pathRouter).filter((file) => {
-    const fileWithOutExt = removeExtension(file)
-    const skip = ['index'].includes(fileWithOutExt)
-    if (!skip) {
-        router.use(`/${fileWithOutExt}`, require(`./${fileWithOutExt}`)) //TODO: localhost/users
-        console.log('CARGAR RUTA ---->', fileWithOutExt)
-    }
-})
+  const fileWithOutExt = removeExtension(file);
+  const skip = ["index"].includes(fileWithOutExt);
+  if (!skip) {
+    router.use(`/${fileWithOutExt}`, require(`./${fileWithOutExt}`)); //* localhost/[users, storage, tracks]
+    console.log("CARGAR RUTA ---->", fileWithOutExt);
+  }
+});
 
-router.get('*', (req, res) => {
-    res.status(404)
-    res.send({ error: 'Not found' })
-})
+router.get("*", (req, res) => {
+  res.status(404);
+  res.send({ error: "Not found" });
+});
 
-module.exports = router
+module.exports = router;
