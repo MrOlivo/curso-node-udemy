@@ -16,12 +16,10 @@ const port = process.env.PORT || 3000;
  */
 app.use("/api", require("./routes"));
 
-app.listen(port, () =>
-  console.log(`Server is ready on port ${port}`)
-);
+app.listen(port, () => console.log(`Server is ready on port ${port}`));
 
 /**
- * Define your database engine
+ * Define database engine
  */
 
 if (engine === "mysql") {
