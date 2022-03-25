@@ -12,7 +12,8 @@ const checkRoleAuth = (roles) => async (req, res, next) => {
     const tokenData = await verifyToken(token);
     const userData = await userModel.findById(tokenData._id);
 
-    if ([].concat(roles).includes(userData.role.pop())) {
+    const hasSpecifiedRole = userData.role.some(role => roles.includes(role));
+    if (hasSpecifiedRole) {
       next();
     } else {
       handleErrorResponse(res, "NOT_ROL", 409);
