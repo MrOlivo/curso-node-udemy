@@ -16,16 +16,17 @@ const { matchedData } = require("express-validator");
  */
 const loginCtrl = async (req, res) => {
   try {
-    const body = matchedData(req);
-    const user = await userModel.findOne({ email: body.email });
+    const { email, password } = matchedData(req);
+
+    const user = await userModel.findOne({ email: email });
     if (!user) {
       handleErrorResponse(res, "USER_NOT_EXISTS", 404);
       return;
     }
-    const checkPassword = await compare(body.password, user.password);
 
+    const checkPassword = await compare(password, user.password);
     if (!checkPassword) {
-      handleErrorResponse(res, "PASSWORD_INVALID", 402);
+      handleErrorResponse(res, "PASSWORD_INVALID", 401);
       return;
     }
 
@@ -50,14 +51,14 @@ const loginCtrl = async (req, res) => {
  */
 const registerCtrl = async (req, res) => {
   try {
-    const body = matchedData(req);
-    const checkIsExist = await userModel.findOne({ email: body.email });
+    const { email, password, ...body } = matchedData(req);
+    const checkIsExist = await userModel.findOne({ email });
     if (checkIsExist) {
-      handleErrorResponse(res, "USER_EXISTS", 401);
+      handleErrorResponse(res, "USER_EXISTS", 409); //* 409 Conflict
       return;
     }
-    const password = await encrypt(body.password);
-    const bodyInsert = { ...body, password };
+    const encryptedPass = await encrypt(password);
+    const bodyInsert = { ...body, email, password: encryptedPass };
     const data = await userModel.create(bodyInsert);
     res.send({ data });
   } catch (e) {
