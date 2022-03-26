@@ -2,8 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const dbConnectNoSql = require("./config/mongo");
-const { dbConnectMySQL } = require("./config/mysql");
+const dbConnectMongoDB = require("./config/mongo");
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static("storage"));
@@ -11,20 +11,10 @@ app.use(express.static("storage"));
 const engine = process.env.DB_ENGINE || null;
 const port = process.env.PORT || 3000;
 
-/**
- * API Rest
- */
+//* Routes for API
 app.use("/api", require("./routes"));
 
 app.listen(port, () => console.log(`Server is ready on port ${port}`));
 
-/**
- * Define database engine
- */
-
-if (engine === "mysql") {
-  dbConnectMySQL();
-}
-if (engine === "nosql") {
-  dbConnectNoSql();
-}
+//* Define database engine
+dbConnectMongoDB();
