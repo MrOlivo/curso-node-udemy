@@ -1,10 +1,7 @@
-const { check } = require("express-validator");
+const { check, body } = require("express-validator");
 const { validateResult } = require("../utils/handleValidator");
-const validateId = [
-  check("id").exists().isMongoId(),
-  (req, res, next) => {
-    validateResult(req, res, next);
-  },
-];
 
-module.exports = { validateId };
+const validateId = [body("id").exists().isMongoId(), validateResult];
+const validateFileComes = [body("file").exists(), validateResult];
+
+module.exports = { validateId, validateFileComes };
