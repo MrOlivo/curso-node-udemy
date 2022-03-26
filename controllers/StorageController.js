@@ -14,8 +14,7 @@ const MEDIA_PATH = `${__dirname}/../storage`;
  */
 const getItem = async (req, res) => {
   try {
-    req = matchedData(req);
-    const id = req.id;
+    const { id } = matchedData(req);
     const data = await storageModel.findById(id);
     res.send({ data });
   } catch (e) {
@@ -30,7 +29,7 @@ const getItem = async (req, res) => {
  */
 const getItems = async (req, res) => {
   try {
-    const [, options] = optionsPaginate(req)
+    const [, options] = optionsPaginate(req);
     const data = await storageModel.paginate({}, options);
     res.send({ data });
   } catch (e) {
@@ -59,8 +58,7 @@ const createItem = async (req, res) => {
 
 const deleteItem = async (req, res) => {
   try {
-    req = matchedData(req);
-    const id = req.id;
+    const { id } = matchedData(req);
     const findedMedia = await storageModel.findById(id);
     const fileName = findedMedia.filename;
     await storageModel.delete({ _id: id });
