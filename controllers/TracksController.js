@@ -11,8 +11,7 @@ const optionsPaginate = require("../config/paginationParams");
  */
 const getItem = async (req, res) => {
   try {
-    req = matchedData(req);
-    const id = req.id;
+    const { id } = matchedData(req);
     const [data] = await tracksModel.aggregate([
       {
         $lookup: {
@@ -68,7 +67,7 @@ const createItem = async (req, res) => {
 };
 
 /**
- * update detail row
+ * Update detail row
  * @param {*} req
  * @param {*} res
  */
