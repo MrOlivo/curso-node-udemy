@@ -26,7 +26,7 @@ const loginCtrl = async (req, res) => {
 
     const checkPassword = await compare(password, user.password);
     if (!checkPassword) {
-      handleErrorResponse(res, "PASSWORD_INVALID", 401);
+      handleErrorResponse(res, "PASSWORD_DOESNT_MATCH", 401);
       return;
     }
 
